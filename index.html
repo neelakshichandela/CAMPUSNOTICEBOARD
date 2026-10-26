@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusBoard — College Digital Notice Board</title>
+<style>
+:root{--navy:#14213d;--blue:#3157d5;--ink:#172033;--muted:#697386;--bg:#f4f7fc;--line:#e5eaf3;--white:#fff;--green:#16856b;--orange:#c66b13;--red:#c53c4d;--shadow:0 12px 32px rgba(25,45,85,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.topbar{background:var(--navy);color:#fff;padding:15px 5.5%;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.4px}.logo{width:39px;height:39px;border-radius:12px;background:#fff;color:var(--blue);display:grid;place-items:center;font-size:20px}.brand small{display:block;font-weight:500;color:#bdc8e1;font-size:11px;letter-spacing:.5px;margin-top:2px}.top-actions{display:flex;align-items:center;gap:10px}.date-pill{font-size:13px;color:#dce4f5}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;transition:.18s}.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:#2446bd;transform:translateY(-1px)}.btn-light{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn-outline{background:transparent;color:#fff;border:1px solid #5c6881}.hero{padding:37px 5.5% 25px;background:linear-gradient(115deg,#e9efff,#f4f7fc 68%);border-bottom:1px solid #e0e7f4}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.7px;color:var(--blue);font-weight:800}.hero h1{font-size:clamp(28px,4vw,43px);line-height:1.12;letter-spacing:-1.4px;margin:10px 0}.hero p{margin:0;color:var(--muted);font-size:15px;max-width:620px;line-height:1.65}.stats{display:flex;gap:12px;margin-top:23px;flex-wrap:wrap}.stat{background:#fff;border:1px solid #e2e8f5;border-radius:12px;padding:12px 17px;min-width:125px}.stat strong{display:block;font-size:21px;color:var(--navy)}.stat span{font-size:12px;color:var(--muted)}main{padding:28px 5.5% 60px;max-width:1500px;margin:auto}.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}.section-head h2{margin:0;font-size:23px;letter-spacing:-.6px}.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}.search-wrap{flex:1;min-width:210px;position:relative}.search-wrap span{position:absolute;left:13px;top:10px;color:#8b95a8}.search-wrap input{width:100%;padding:11px 12px 11px 38px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}.search-wrap input:focus,select:focus{border-color:#91a6f4;box-shadow:0 0 0 3px #3157d51a}.controls select{padding:10px 35px 10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:#3c4659;outline:none}.notice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.notice{background:#fff;border:1px solid var(--line);border-radius:16px;padding:19px;box-shadow:0 4px 14px rgba(30,48,85,.025);display:flex;flex-direction:column;min-height:230px;transition:.2s}.notice:hover{box-shadow:var(--shadow);transform:translateY(-2px)}.notice-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{font-size:11px;font-weight:800;letter-spacing:.3px;padding:6px 9px;border-radius:7px;background:#edf1ff;color:#3157d5}.tag.Exams{background:#fff0ed;color:#c53c4d}.tag.Events{background:#e8f8f1;color:#16856b}.tag.Placements{background:#fff4df;color:#a85b0b}.tag.Academic{background:#edf1ff;color:#3157d5}.tag.General{background:#f0f1f5;color:#5f6879}.tag.Sports{background:#f3eaff;color:#8144b5}.notice-date{font-size:11px;color:#8a93a4}.notice h3{font-size:17px;line-height:1.4;margin:15px 0 8px;letter-spacing:-.2px}.notice p{font-size:13px;line-height:1.65;color:var(--muted);margin:0 0 18px;flex:1}.notice-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #edf0f6;padding-top:13px;gap:10px}.posted-by{font-size:11px;color:#8a93a4}.read-link{background:none;border:0;padding:0;color:var(--blue);font-size:12px;font-weight:800}.empty{grid-column:1/-1;text-align:center;padding:50px 20px;color:var(--muted);background:#fff;border:1px dashed #d6deeb;border-radius:16px}.empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:7px}.footer{padding:20px 5.5%;border-top:1px solid var(--line);color:#8992a3;font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.modal-backdrop{position:fixed;inset:0;background:rgba(12,22,43,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-backdrop.open{display:flex}.modal{background:#fff;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:18px;padding:24px;box-shadow:0 24px 80px #07132c55}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.modal-head h2{margin:0;font-size:22px}.close{border:0;background:#f1f3f8;width:34px;height:34px;border-radius:9px;font-size:20px}.field{margin-bottom:14px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px;color:#3e485b}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;outline:none;background:#fff}.field textarea{min-height:105px;resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.detail-copy{white-space:pre-wrap;line-height:1.75;color:#586276}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#172033;color:white;padding:12px 18px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);display:none;z-index:20}.toast.show{display:block}@media(max-width:1000px){.notice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:650px){.topbar{padding:13px 5%;align-items:flex-start}.date-pill{display:none}.hero{padding:30px 5% 22px}main{padding:24px 5% 45px}.notice-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}.top-actions .btn{padding:9px 10px;font-size:12px}.form-row{grid-template-columns:1fr}.stat{flex:1;min-width:95px}.stat strong{font-size:18px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">▤</div><div>CampusBoard<small>YOUR CAMPUS. ONE BOARD.</small></div></div>
+  <div class="top-actions"><span class="date-pill" id="today"></span><button class="btn btn-outline" id="adminBtn">Admin login</button><button class="btn btn-light" id="logoutBtn" hidden>Sign out</button></div>
+</header>
+<section class="hero">
+  <div class="eyebrow">College announcements, simplified</div>
+  <h1>Stay in the loop.<br>Never miss a notice.</h1>
+  <p>Your one-stop hub for campus news, exam updates, events, placements, and important academic announcements.</p>
+  <div class="stats">
+    <div class="stat"><strong id="totalCount">0</strong><span>Total notices</span></div>
+    <div class="stat"><strong id="urgentCount">0</strong><span>Important updates</span></div>
+    <div class="stat"><strong id="categoryCount">6</strong><span>Notice categories</span></div>
+  </div>
+</section>
+<main>
+  <div class="section-head"><div><h2>Latest notices</h2><p>Live updates from your college community · <span id="liveStatus">Connecting…</span></p></div></div>
+  <div class="controls">
+    <div class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search notices, events, exams..."></div>
+    <select id="categoryFilter" aria-label="Filter by category"><option value="All">All categories</option><option>Academic</option><option>Exams</option><option>Events</option><option>Placements</option><option>Sports</option><option>General</option></select>
+    <select id="sortFilter" aria-label="Sort notices"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select>
+  </div>
+  <div class="notice-grid" id="noticeGrid"></div>
+</main>
+<footer class="footer"><span>© <span id="year"></span> CampusBoard · College Digital Notice Board</span><span>Made for a more connected campus ✦</span></footer>
+
+<div class="modal-backdrop" id="postModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+ <div class="modal"><div class="modal-head"><h2 id="modalTitle">Post a notice</h2><button class="close" id="closePost" aria-label="Close">×</button></div>
+ <form id="noticeForm">
+  <div class="field"><label for="noticeTitle">Notice title *</label><input id="noticeTitle" required maxlength="100" placeholder="e.g. Mid-semester exam timetable"></div>
+  <div class="form-row"><div class="field"><label for="noticeCategory">Category</label><select id="noticeCategory"><option>Academic</option><option>Exams</option><option>Events</option><option>Placements</option><option>Sports</option><option>General</option></select></div><div class="field"><label for="noticeAuthor">Posted by</label><input id="noticeAuthor" maxlength="45" placeholder="e.g. Examination Cell"></div></div>
+  <div class="field"><label for="noticeBody">Details *</label><textarea id="noticeBody" required maxlength="1500" placeholder="Write the important details, dates, venue, or instructions..."></textarea></div>
+  <div class="field"><label for="noticeDeadline">Deadline / event date (optional)</label><input id="noticeDeadline" type="date"></div>
+  <div class="modal-actions"><button type="button" class="btn btn-light" id="cancelPost">Cancel</button><button class="btn btn-primary" type="submit">Publish notice</button></div>
+ </form></div>
+</div>
+
+<div class="modal-backdrop" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+ <div class="modal">
+  <div class="modal-head"><h2 id="loginTitle">Admin sign in</h2><button class="close" id="closeLogin" aria-label="Close">×</button></div>
+  <p style="font-size:13px;line-height:1.6;color:#697386;margin-top:-8px">Only college staff who have been authorized by the site owner can publish notices.</p>
+  <form id="loginForm">
+   <div class="field"><label for="adminEmail">Admin email</label><input id="adminEmail" type="email" autocomplete="username" required placeholder="name@college.edu"></div>
+   <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Your password"></div>
+   <div class="modal-actions"><button type="button" class="btn btn-light" id="cancelLogin">Cancel</button><button class="btn btn-primary" id="loginSubmit" type="submit">Sign in</button></div>
+  </form>
+ </div>
+</div>
+
+<div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle"><div class="modal"><div class="modal-head"><h2 id="detailTitle"></h2><button class="close" id="closeDetail" aria-label="Close">×</button></div><div id="detailMeta"></div><p class="detail-copy" id="detailBody"></p><div class="modal-actions"><button class="btn btn-primary" id="doneDetail">Done</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  /*
+    IMPORTANT:
+    1. Paste your Supabase Project URL and publishable/anon key below.
+    2. The publishable/anon key is intended for browser use when RLS is enabled.
+    3. NEVER put a service_role/secret key in this file.
+  */
+  const SUPABASE_URL = "https://wyvejsotoiwdcjiruuar.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_K3ML73mT2Z-3bkccRBZx6A_IvVY_n_J";
+
+  const $ = id => document.getElementById(id);
+  const fmtDate = s => {
+    if (!s) return "";
+    const value = String(s).slice(0, 10);
+    const d = new Date(value + "T00:00:00");
+    return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
+  };
+  const isConfigured = !SUPABASE_URL.startsWith("PASTE_") &&
+                       !SUPABASE_PUBLISHABLE_KEY.startsWith("PASTE_");
+
+  let campusClient = null;
+  let notices = [];
+  let currentSession = null;
+  let isAdmin = false;
+  let noticeChannel = null;
+  let loadingNotices = false;
+
+  function escapeHtml(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[c]));
+  }
+  function toast(msg) {
+    $("toast").textContent = msg;
+    $("toast").classList.add("show");
+    setTimeout(() => $("toast").classList.remove("show"), 3000);
+  }
+  function openModal(id) { $(id).classList.add("open"); }
+  function closeModal(id) { $(id).classList.remove("open"); }
+  function setStatus(text) { $("liveStatus").textContent = text; }
+
+  function render() {
+    const q = $("search").value.trim().toLowerCase();
+    const cat = $("categoryFilter").value;
+    const sort = $("sortFilter").value;
+    const list = notices.filter(n =>
+      (cat === "All" || n.category === cat) &&
+      [n.title, n.body, n.author, n.category].join(" ").toLowerCase().includes(q)
+    );
+    list.sort((a,b) => sort === "newest"
+      ? String(b.date).localeCompare(String(a.date))
+      : String(a.date).localeCompare(String(b.date)));
+
+    $("totalCount").textContent = notices.length;
+    $("urgentCount").textContent = notices.filter(n => n.important).length;
+    const grid = $("noticeGrid");
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty"><strong>No notices found</strong>New college notices will appear here automatically.</div>';
+      return;
+    }
+    grid.innerHTML = list.map(n => `
+      <article class="notice">
+        <div class="notice-top"><span class="tag ${escapeHtml(n.category)}">${escapeHtml(n.category)}</span><span class="notice-date">${fmtDate(n.date)}</span></div>
+        <h3>${escapeHtml(n.title)}</h3>
+        <p>${escapeHtml(n.body.slice(0,145))}${n.body.length > 145 ? "…" : ""}</p>
+        <div class="notice-foot">
+          <span class="posted-by">${escapeHtml(n.author || "College Office")}${n.deadline ? " · Due " + fmtDate(n.deadline) : ""}</span>
+          <button class="read-link" data-read="${escapeHtml(n.id)}">Read more ↗</button>
+        </div>
+      </article>`).join("");
+    grid.querySelectorAll("[data-read]").forEach(b =>
+      b.addEventListener("click", () => showDetail(b.dataset.read))
+    );
+  }
+
+  function showDetail(id) {
+    const n = notices.find(x => String(x.id) === String(id));
+    if (!n) return;
+    $("detailTitle").textContent = n.title;
+    $("detailMeta").innerHTML =
+      `<span class="tag ${escapeHtml(n.category)}">${escapeHtml(n.category)}</span>
+       <span style="font-size:12px;color:#8992a3;margin-left:8px">${fmtDate(n.date)} · ${escapeHtml(n.author || "College Office")}</span>` +
+      (n.deadline ? `<p style="font-size:13px;color:#c66b13;font-weight:700">Deadline: ${fmtDate(n.deadline)}</p>` : "");
+    $("detailBody").textContent = n.body;
+    openModal("detailModal");
+  }
+
+  function normalizeNotice(row) {
+    return {
+      id: row.id,
+      title: row.title || "",
+      category: row.category || "General",
+      body: row.body || "",
+      author: row.author || "College Office",
+      date: String(row.created_at || new Date().toISOString()).slice(0,10),
+      deadline: row.deadline || "",
+      important: Boolean(row.important)
+    };
+  }
+
+  async function loadNotices() {
+    if (!campusClient || loadingNotices) return;
+    loadingNotices = true;
+    try {
+      const { data, error } = await campusClient
+        .from("notices")
+        .select("id,title,category,body,author,deadline,important,created_at")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      notices = (data || []).map(normalizeNotice);
+      render();
+      setStatus("Connected · live updates on");
+    } catch (err) {
+      console.error(err);
+      setStatus("Could not load notices");
+      toast("Could not load notices. Check your Supabase setup and SQL policies.");
+    } finally {
+      loadingNotices = false;
+    }
+  }
+
+  async function refreshAdminState(session) {
+    currentSession = session || null;
+    isAdmin = false;
+
+    if (currentSession && campusClient) {
+      try {
+        const { data, error } = await campusClient.rpc("is_admin");
+        if (error) throw error;
+        isAdmin = data === true;
+      } catch (err) {
+        console.error("Admin permission check failed:", err);
+        isAdmin = false;
+      }
+    }
+
+    $("adminBtn").textContent = isAdmin ? "＋ Post a notice" : "Admin login";
+    $("logoutBtn").hidden = !currentSession;
+    if (currentSession && !isAdmin) {
+      toast("This account is not authorized to publish notices.");
+    }
+  }
+
+  async function startApp() {
+    $("today").textContent = new Date().toLocaleDateString("en-IN", {weekday:"short", day:"numeric", month:"short", year:"numeric"});
+    $("year").textContent = new Date().getFullYear();
+
+    if (!isConfigured) {
+      setStatus("Setup required");
+      $("noticeGrid").innerHTML = '<div class="empty"><strong>Connect CampusBoard to Supabase</strong>Open index.html and replace the two Supabase placeholders. Follow README_SETUP.txt for the setup steps.</div>';
+      $("adminBtn").disabled = true;
+      return;
+    }
+
+    campusClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const { data: { session } } = await campusClient.auth.getSession();
+    await refreshAdminState(session);
+    await loadNotices();
+
+    campusClient.auth.onAuthStateChange((_event, sessionNow) => {
+      currentSession = sessionNow || null;
+      setTimeout(async () => {
+        await refreshAdminState(sessionNow);
+      }, 0);
+    });
+
+    noticeChannel = campusClient.channel("campusboard-notices-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: "notices" }, () => {
+        loadNotices();
+      })
+      .subscribe(status => {
+        if (status === "SUBSCRIBED") setStatus("Connected · live updates on");
+        else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") setStatus("Live connection retrying…");
+      });
+  }
+
+  ["search","categoryFilter","sortFilter"].forEach(id =>
+    $(id).addEventListener(id === "search" ? "input" : "change", render)
+  );
+
+  $("adminBtn").addEventListener("click", () => {
+    if (isAdmin) openModal("postModal");
+    else if (isConfigured) openModal("loginModal");
+  });
+
+  $("logoutBtn").addEventListener("click", async () => {
+    if (!campusClient) return;
+    const { error } = await campusClient.auth.signOut();
+    if (error) toast(error.message);
+    else {
+      await refreshAdminState(null);
+      closeModal("postModal");
+      toast("Signed out.");
+    }
+  });
+
+  $("closeLogin").addEventListener("click", () => closeModal("loginModal"));
+  $("cancelLogin").addEventListener("click", () => closeModal("loginModal"));
+  $("closePost").addEventListener("click", () => closeModal("postModal"));
+  $("cancelPost").addEventListener("click", () => closeModal("postModal"));
+  $("closeDetail").addEventListener("click", () => closeModal("detailModal"));
+  $("doneDetail").addEventListener("click", () => closeModal("detailModal"));
+  ["loginModal","postModal","detailModal"].forEach(id =>
+    $(id).addEventListener("click", e => { if (e.target === $(id)) closeModal(id); })
+  );
+
+  $("loginForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!campusClient) return;
+    const button = $("loginSubmit");
+    button.disabled = true;
+    button.textContent = "Signing in…";
+    try {
+      const { data, error } = await campusClient.auth.signInWithPassword({
+        email: $("adminEmail").value.trim(),
+        password: $("adminPassword").value
+      });
+      if (error) throw error;
+      await refreshAdminState(data.session);
+      closeModal("loginModal");
+      $("loginForm").reset();
+      if (isAdmin) {
+        toast("Admin login successful.");
+        openModal("postModal");
+      } else {
+        toast("Login worked, but this account is not on the authorized admins list.");
+        await campusClient.auth.signOut();
+        await refreshAdminState(null);
+      }
+    } catch (err) {
+      toast(err.message || "Sign-in failed.");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Sign in";
+    }
+  });
+
+  $("noticeForm").addEventListener("submit", async e => {
+    e.preventDefault();
+    if (!campusClient || !isAdmin) {
+      toast("Please sign in with an authorized admin account.");
+      return;
+    }
+
+    const title = $("noticeTitle").value.trim();
+    const body = $("noticeBody").value.trim();
+    if (!title || !body) return;
+
+    const button = $("noticeForm").querySelector('button[type="submit"]');
+    button.disabled = true;
+    button.textContent = "Publishing…";
+    try {
+      const payload = {
+        title,
+        category: $("noticeCategory").value,
+        body,
+        author: $("noticeAuthor").value.trim() || "College Office",
+        deadline: $("noticeDeadline").value || null,
+        important: ["Exams","Placements"].includes($("noticeCategory").value)
+      };
+      const { error } = await campusClient.from("notices").insert(payload);
+      if (error) throw error;
+      $("noticeForm").reset();
+      closeModal("postModal");
+      $("search").value = "";
+      $("categoryFilter").value = "All";
+      await loadNotices();
+      toast("Notice published. Students will see it on their devices.");
+    } catch (err) {
+      console.error(err);
+      toast(err.message || "Could not publish notice. Check your admin permissions.");
+    } finally {
+      button.disabled = false;
+      button.textContent = "Publish notice";
+    }
+  });
+
+  startApp();
+</script>
+
+</body>
+</html>
